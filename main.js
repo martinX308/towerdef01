@@ -55,10 +55,10 @@ function loadPage (){
         gameSession=new Game(gameParent);
 
         //terminate game - REMOVE with termination condition
-        window.setTimeout(function () {
-            closeGameSession();
-            showGameOver();
-          }, 3000);
+        // window.setTimeout(function () {
+        //     closeGameSession();
+        //     showGameOver();
+        //   }, 3000);
     }
     
     function closeGameSession () {
