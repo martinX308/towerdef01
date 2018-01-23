@@ -1,15 +1,15 @@
 'use strict';
 
-var map = { // object to draw map and set waypoints
+var map = { // object to draw map and set waypoints  -> game / constructor
     streetWidth:50,
     waypoint:[
-        {x:0,y:100},
-        {x:700,y:100},
-        {x:700,y:300},
-        {x:100,y:300},
-        {x:100,y:500},
-        {x:300,y:500},
-        {x:800,y:500}
+        {x:0,y:150},
+        {x:700,y:150},
+        {x:700,y:350},
+        {x:100,y:350},
+        {x:100,y:550},
+        {x:300,y:550},
+        {x:800,y:550}
     ],
     draw: function (position,width,height)  {
         position.fillStyle = 'green'; // get background
@@ -42,3 +42,5 @@ var map = { // object to draw map and set waypoints
         position.restore();        
     }
 }
+
+

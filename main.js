@@ -6,6 +6,7 @@ function loadPage (){
     var gamePreview;
     var buttonStartGame; 
     var gameSession; // used to store game instance
+    var player;
 
     //---------------- Reset of start page and load of game
     var startNewGame = function() { // assign to variable to remove event listener
@@ -41,11 +42,13 @@ function loadPage (){
 
     // ------- helper function for start page reset---
     function removeWelcomePage () { 
+        // remove eventListener on Start Button
+        buttonStartGame.removeEventListener('click',startNewGame);
+
         // remove HTML elements for pre-launch
         document.querySelector('#game-preview').remove();
 
-        // remove eventListener on Start Button
-        buttonStartGame.removeEventListener('click',startNewGame);
+     
     }
 
     // ------- initialize game build-----
@@ -53,17 +56,40 @@ function loadPage (){
         // build game canvas
         stage = 'game session';
         gameSession=new Game(gameParent);
-
-        //terminate game - REMOVE with termination condition
-        // window.setTimeout(function () {
-        //     closeGameSession();
-        //     showGameOver();
-        //   }, 3000);
+        //player =
+        var canvas =gameSession.canvasElement;
+        canvas.addEventListener('mousedown',trackMousePosition, false);    //   mouse listener for click on tower class
+        
     }
     
     function closeGameSession () {
+        gameSession.canvasElement.removeEventListener('mousedown',trackMousePosition, false);  
         gameSession.destroy();
     }
+
+
+    // track mouse on canvas >game?
+    function trackMousePosition (event) {
+        var mousePos = getMousePos(gameSession.canvasElement, event);
+        //  if allowed style.cursor = 'move';
+        console.log ('Mouse position: ' + mousePos.x + ',' + mousePos.y);
+        // if no tower selected + paid > no action
+        // if area not allowed or occupied > change mouse color to style.cursor = 'pointer';
+        if(checkPositionTower(mousePos.x,mousePos.y)) {
+           gameSession.pushTower(mousePos.x,mousePos.y);
+        }
+    }
+
+    function getMousePos(canvas, event) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+        };
+    }
+    //-----
+
+
 
     // ------- build Game Over page
     var restartGame = function () {
@@ -102,11 +128,12 @@ function loadPage (){
     }
 
     function removeGameOverPage () {
-      // remove HTML elements for pre-launch
-      document.querySelector('#game-preview').remove();
+        // remove eventListener on Start Button
+        buttonStartGame.removeEventListener('click',restartGame);
 
-      // remove eventListener on Start Button
-      buttonStartGame.removeEventListener('click',restartGame);
+        // remove HTML elements for pre-launch
+        document.querySelector('#game-preview').remove();
+
     }
 
     buildWelcomePage ()     

@@ -30,18 +30,51 @@ button{
     font-size: 2.5em;
 }
 /* ---- layout ---- */
+#wrapper {
+    padding:5%;
+}
 #gui {
-    width:900px;
-    margin:0 5%;
+    width:800px;
 }
-#game-preview img{
-    width:100%;
-}
+
 #game-preview{
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
+.displayStatus{
+    font-size: 1.5em;
+    background-color: darkgreen;
+    color: white;
+    font-weight: bold;
+    padding:10px;
+}
+
+.displayStatus p{
+    display: flex;
+    justify-content: space-around;
+}
+
+/* ---- components ---- */
+#game-preview img{
+    width:100%;
+}
+
+.game-buttons{
+    display:flex;
+    justify-content: center;
+}
+
+.tower-button{
+    background:lightgray;
+    color:black;
+    font-size: 1em;
+    padding:5px;
+    font-weight: bold;
+    flex:1 0 auto;
+}
+
 
 #game-preview button {
     color: white;
@@ -49,6 +82,3 @@ button{
   }
   
 
-
-
-/* ---- components ---- */

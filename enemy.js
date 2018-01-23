@@ -1,12 +1,13 @@
 'use strict';
 
-function Enemy(x,y,r) {
+function Enemy(x,y,r,level,color,hp) {
     this.x=x;
     this.y=y;
     this.r=r;
-    this.color='blue';
+    this.color=color;
     this.alpha=1;
-    this.level=1;
+    this.level=level;
+    this.hp=hp;
     this.speed=1; // velocity of enemy
     this.velocity ={
         x:1,
@@ -14,6 +15,7 @@ function Enemy(x,y,r) {
     };
     this.nextWaypoint=false;
     this.nextWaypointIndex=0;
+    this.remove=false;
 }
 
 Enemy.prototype.move = function(){
@@ -23,7 +25,9 @@ Enemy.prototype.move = function(){
     if (that.waypointReached()) 
     {
         if(!that.getNextWaypoint()) {
-            //enemy reaches end of game->destroy + reduce live
+            //enemy reaches end of game->destroy  live+ reduce player HP
+            this.remove=true;
+            return false;
         }
     }
     that.x += that.velocity.x;
@@ -78,7 +82,7 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
     } else if (oldWaypointY < self.nextWaypoint.y)
     { 
         self.velocity.y=self.speed;
-    } else if (oldWaypointy > self.neytWaypoint.y)
+    } else if (oldWaypointY > self.nextWaypoint.y)
     { 
         self.velocity.y= -self.speed;
     }
@@ -90,23 +94,26 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
 
 
 
+var waveLevel1 ={
+    enemy1: {
+        x:20,
+        y:150,
+        r:10,
+        level:1,
+        color:'blue'
+    },
+    enemy2:{
+        x:20,
+        y:150,
+        r:10,
+        level:2,
+        color:'brown'
+    },
+    waveEnemies: ['enemy1','enemy1','enemy1','enemy2','enemy1','enemy2','enemy1','enemy2','enemy2'],
+    waveTiming:[5000,3000,5000,3000,5000,3000,2000,3000,3000]
 
+}
 
-// waveLevel1 ={
-//     enemy1: {
-//         x:100,
-//         y:100,
-//         r:20,
-//         level:2
-//     },
-//     enemy2:{
-//         x:100,
-//         y:100,
-//         r:20,
-//         level:2
-//     },
-//     waveArray: ['enemy1','enemy1','enemy2']
-// }
 
 
 
