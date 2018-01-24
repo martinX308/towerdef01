@@ -75,7 +75,7 @@ function loadPage (){
         console.log ('Mouse position: ' + mousePos.x + ',' + mousePos.y);
         // if no tower selected + paid > no action
         // if area not allowed or occupied > change mouse color to style.cursor = 'pointer';
-        if(checkPositionTower(mousePos.x,mousePos.y)) {
+        if(gameSession.map.checkPositionTower(mousePos.x,mousePos.y)) {
            gameSession.pushTower(mousePos.x,mousePos.y);
         }
     }

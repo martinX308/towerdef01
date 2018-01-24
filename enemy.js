@@ -1,6 +1,9 @@
 'use strict';
 
-function Enemy(x,y,r,level,color,hp) {
+// ctx, map
+function Enemy(x,y,r,level,color,hp,waypoints) {
+    // this.ctx = ctx;
+    this.waypoints = waypoints;
     this.x=x;
     this.y=y;
     this.r=r;
@@ -50,7 +53,7 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
 
     if(!self.nextWaypoint) // initialize nexWaypoint
     {
-       self.nextWaypoint= Object.assign ({},map.waypoint[self.nextWaypointIndex]);
+       self.nextWaypoint= Object.assign ({},self.waypoints[self.nextWaypointIndex]);
       
     }
     var oldWaypointX =self.nextWaypoint.x;
@@ -58,11 +61,11 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
 
     self.nextWaypointIndex ++;
 
-    if(map.waypoint.length<=self.nextWaypointIndex) // check for next Waypoint
+    if(self.waypoints.length<=self.nextWaypointIndex) // check for next Waypoint
     { 
         return false;
     } else {
-        self.nextWaypoint= Object.assign ({},map.waypoint[self.nextWaypointIndex]);
+        self.nextWaypoint= Object.assign ({},self.waypoints[self.nextWaypointIndex]);
     }
 
     if (oldWaypointX === self.nextWaypoint.x) // adjust movement on x axis

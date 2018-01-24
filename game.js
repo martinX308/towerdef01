@@ -212,7 +212,7 @@ Game.prototype.createNewWave = function () {
         var color=waveLevel1[enemyType].color;
         var hp =100 * level;
 
-        nextEnemy = new Enemy(x,y,r,level,color,hp);
+        nextEnemy = new Enemy(x,y,r,level,color,hp,that.map.waypoint);
         nextEnemy.getNextWaypoint();
         that.enemyArray.push(nextEnemy);
 
