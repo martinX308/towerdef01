@@ -145,18 +145,4 @@ function loadPage (){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 window.onload = loadPage;

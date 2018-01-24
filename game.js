@@ -17,6 +17,9 @@ function Game(gameParent) { // constructor for gameSession
     // initial fill - create Enemies
     self.createNewWave();
 
+    // create map
+    self.map= new Map ();
+
 
 
     // update frame
@@ -27,7 +30,7 @@ function Game(gameParent) { // constructor for gameSession
         self.ctx.clearRect(0,0,self.width,self.height);
 
         // draw background map
-        map.draw(self.ctx,self.canvasElement.width,self.canvasElement.height);
+        self.map.draw(self.ctx,self.canvasElement.width,self.canvasElement.height);
 
         if(self.Framecounter%100===0){
             self.updateGameProcess();
@@ -35,6 +38,10 @@ function Game(gameParent) { // constructor for gameSession
         self.moveEnemies();
         self.updateStats();
         
+
+        // self.towers.forEach(function (tower) { 
+        //     tower.draw() 
+        // });
 
         // draw towers + range
         for (var i=0;i<self.towerRange.length;i++)
@@ -50,14 +57,20 @@ function Game(gameParent) { // constructor for gameSession
         // draw enemyArray
         for (var i=0;i<self.enemyArray.length;i++) {
             self.drawCircle(self.enemyArray[i].x,self.enemyArray[i].y,self.enemyArray[i].r,self.enemyArray[i].color,self.enemyArray[i].alpha);
+            // self.enemyArray[i].draw()
+            // draw -> utils.drawCircle(self.ctx, self.x, self.y, self.r, self.color, self.alpha)
         }
 
-
+        if (player.healthPoints<=0) // termination condition
+        {
+            console.log("1st ending condition");
+            loadPagcloseGameSession();
+            self.showGameOver();
+        }
         if (!self.finished) {
             window.requestAnimationFrame(self.updateFrame);
         }
-        //closeGameSession();
-        //showGameOver();
+
     };
 
 
@@ -110,7 +123,7 @@ Game.prototype.moveEnemies=function () {
             player.coins+=element.level*25;
             self.enemyArray.splice(index,1);
         } else if (element.remove===true) {
-            player.healthPoints --;
+            player.healthPoints -= element.level;
             self.enemyArray.splice(index,1);
         }
 

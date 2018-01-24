@@ -23,6 +23,7 @@ Tower.prototype.getDistance= function (enimyX,enimyY) {
 
 
 
+
 var towerTemplate ={
     1: {//Type 1
         colorTower:'black',
