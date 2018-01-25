@@ -1,8 +1,8 @@
 'use strict';
 
-// ctx, map
-function Enemy(x,y,r,level,color,hp,waypoints) {
-    // this.ctx = ctx;
+// 
+function Enemy(x,y,r,level,color,hp,waypoints,ctx) {
+    this.ctx = ctx;
     this.waypoints = waypoints;
     this.x=x;
     this.y=y;
@@ -93,7 +93,9 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
     return true;
 }    
 
-
+Enemy.prototype.draw = function () {
+    utils.drawCircle (this.ctx, this.x, this.y, this.r, this.color, this.alpha);
+}
 
 
 

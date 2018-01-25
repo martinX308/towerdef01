@@ -11,16 +11,17 @@ function Game(gameParent) { // constructor for gameSession
     self.gameSequence;
     self.Framecounter=0;
 
-    // create dom elements'
-    self.createCanvas();
+    // initiate player
+    self.player= new Player ();
 
-    // initial fill - create Enemies
-    self.createNewWave();
+    // create dom elements
+    self.createCanvas();
 
     // create map
     self.map= new Map ();
 
-
+     // initial fill - create Enemies
+     self.createNewWave();
 
     // update frame
     self.updateFrame = function () { 
@@ -61,7 +62,7 @@ function Game(gameParent) { // constructor for gameSession
             // draw -> utils.drawCircle(self.ctx, self.x, self.y, self.r, self.color, self.alpha)
         }
 
-        if (player.healthPoints<=0) // termination condition
+        if (self.player.healthPoints<=0) // termination condition
         {
             console.log("1st ending condition");
             loadPagcloseGameSession();
@@ -120,10 +121,10 @@ Game.prototype.moveEnemies=function () {
     self.enemyArray.forEach(function(element,index)
     {
         if(element.hp<=0){
-            player.coins+=element.level*25;
+            self.player.coins+=element.level*25;
             self.enemyArray.splice(index,1);
         } else if (element.remove===true) {
-            player.healthPoints -= element.level;
+            self.player.healthPoints -= element.level;
             self.enemyArray.splice(index,1);
         }
 
@@ -133,14 +134,14 @@ Game.prototype.moveEnemies=function () {
 Game.prototype.updateStats = function (){
     this.ctx.font = '20px Arial, sans-serif';
     this.ctx.fillStyle = 'white';
-    this.ctx.fillText('Health Points left: '+player.healthPoints,  10, 50);
-    this.ctx.fillText('Coins: '+player.coins,  650, 50);
+    this.ctx.fillText('Health Points left: '+ this.player.healthPoints,  10, 50);
+    this.ctx.fillText('Coins: '+ this.player.coins,  650, 50);
 }
 
 Game.prototype.createCanvas = function (){
     // var gameParent = document.querySelector('#gui');
-    var Stats1='Health Points left: '+player.healthPoints;
-    var Stats2= 'Coins: '+player.coins;
+    var Stats1 = 'Health Points left: '+ this.player.healthPoints;
+    var Stats2 = 'Coins: '+ this.player.coins;
 
     // var gameStatus = document.createElement('div');
     // gameStatus.setAttribute('class','displayStatus');
@@ -150,20 +151,24 @@ Game.prototype.createCanvas = function (){
     // this.gameParent.appendChild(gameStatus);
 
     var buttonDiv =document.createElement('div');
-    buttonDiv.setAttribute('class','game-buttons')
+    buttonDiv.setAttribute ('class','game-buttons')
 
     var purchaseTower1=document.createElement('button'); // create container
     purchaseTower1.innerHTML = "<p>Buy Tower1</p><p>Range:Low - Type:Area damage<br>Damage:Low - Attack frequency:Low</p>";
-    purchaseTower1.setAttribute('class','tower-button');
-    purchaseTower1.setAttribute('onclick','player.setTowerClass(1)');
+    purchaseTower1.setAttribute('class','tower-button type1');
+    //purchaseTower1.setAttribute('onclick','gameSession.player.setTowerClass(1)');
     buttonDiv.appendChild(purchaseTower1);
 
     var purchaseTower2=document.createElement('button'); // create container
     purchaseTower2.innerHTML = "<p>Buy Tower2</p><p>Range:High - Type:Single attack<br>Damage:Medium - Attack frequency:high</p>";
-    purchaseTower2.setAttribute('class','tower-button');
-    purchaseTower2.setAttribute('onclick','player.setTowerClass(2)');
+    purchaseTower2.setAttribute('class','tower-button type2');
+    //purchaseTower2.setAttribute('onclick','gameSession.player.setTowerClass(2)');
     buttonDiv.appendChild(purchaseTower2);
     this.gameParent.appendChild(buttonDiv);
+    
+    utils.setTower = this.player.setTowerClass.bind(this.player);
+    document.querySelector('.type1').addEventListener('click',utils.setTower);
+   // document.querySelector('.type2').addEventListener( 'click',utils.setTower(2));
 
 
     this.canvasElement = document.createElement('canvas');
@@ -212,7 +217,7 @@ Game.prototype.createNewWave = function () {
         var color=waveLevel1[enemyType].color;
         var hp =100 * level;
 
-        nextEnemy = new Enemy(x,y,r,level,color,hp,that.map.waypoint);
+        nextEnemy = new Enemy(x,y,r,level,color,hp,that.map.waypoint,that.ctx);
         nextEnemy.getNextWaypoint();
         that.enemyArray.push(nextEnemy);
 
@@ -227,7 +232,7 @@ Game.prototype.createNewWave = function () {
    
 
 Game.prototype.pushTower = function (x,y) {
-    var level=player.selectedTower;
+    var level=this.player.selectedTower;
     var colorTower =towerTemplate[level].colorTower;
     var colorRange=towerTemplate[level].colorRange;
     var alphaTower =towerTemplate[level].alphaTower;
@@ -236,12 +241,33 @@ Game.prototype.pushTower = function (x,y) {
     var rangeRad =towerTemplate[level].sizeRange;
     var damage =towerTemplate[level].damage;
 
-    var towerInstance = new Tower(x,y,towerRad,colorTower,alphaTower,level,damage,rangeRad);
+    var towerInstance = new Tower(x,y,towerRad,colorTower,alphaTower,level,damage,rangeRad,this.ctx);
     this.placedTowers.push(towerInstance);
 
-    var rangeInstance = new Tower(x,y,rangeRad,colorRange,alphaRange,level,damage,0);
+    var rangeInstance = new Tower(x,y,rangeRad,colorRange,alphaRange,level,damage,0,this.ctx);
     this.towerRange.push(rangeInstance);
 
-    player.selectedTower=false;
+    this.player.selectedTower=false;
 }
 
+Game.prototype.checkPositionTower = function (x,y){ // 
+    var towerSize;
+ 
+    if (this.player.selectedTower===false) { // did player pay for tower?
+        return false;
+    } else
+    {   towerSize=towerTemplate[this.player.selectedTower].sizeTower;
+
+        if ((y<= this.map.waypoint[0].y-this.map.streetWidth/2-towerSize)&& (x>towerSize && x<this.canvasElement.width-towerSize)
+            ||(((y>=this.map.waypoint[0].y+this.map.streetWidth/2+towerSize)&&(y<this.map.waypoint[3].y-this.map.streetWidth/2-towerSize))&&(x>towerSize && x<this.map.waypoint[1].x-this.map.streetWidth/2-towerSize))    
+            ||(((y>=this.map.waypoint[3].y+this.map.streetWidth/2+towerSize)&&(y<this.map.waypoint[4].y-this.map.streetWidth/2-towerSize))&&(x< (this.canvasElement.width-towerSize) && x>this.map.waypoint[3].x + this.map.streetWidth/2 + towerSize))    
+            ||(((y>=this.map.waypoint[1].y-this.map.streetWidth/2)&&(y<this.map.waypoint[2].y+this.map.streetWidth/2)) && (x< (this.canvasElement.width-towerSize) && x>(this.map.waypoint[1].x + this.map.streetWidth/2 + towerSize)))    
+            ||((y>=this.map.waypoint[4].y+this.map.streetWidth/2+towerSize)&&(x< (this.canvasElement.width-towerSize) && x>towerSize))           
+        ) {
+            return true;
+        } else 
+        {
+            return false; 
+        }
+    }
+}

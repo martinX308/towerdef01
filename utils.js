@@ -12,6 +12,9 @@ var utils = {
         ctx.fill();
         ctx.globalAlpha = 1;
         // ctx.restore();
+    },
+    setTower: function (type) {
+        
     }
 }
 

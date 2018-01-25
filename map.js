@@ -46,21 +46,4 @@ Map.prototype.draw= function (ctx,width,height)  {
     ctx.restore();        
 }
 
-Map.prototype.checkPositionTower = function (x,y){ // 
-    var towerSize;
- 
-    if (player.selectedTower===false) { // did player pay for tower?
-        return false;
-    } else
-    {   towerSize=towerTemplate[player.selectedTower].sizeTower;
 
-        if ((y<= this.waypoint[0].y-this.streetWidth/2-towerSize)&& (x>towerSize && x<canvas.width-towerSize)
-            ||(((y>=this.waypoint[0].y+this.streetWidth/2+towerSize)&&(y<this.waypoint[4].y-this.streetWidth/2-towerSize))&&(x>towerSize && x<this.waypoint[2].x-this.streetWidth/2-towerSize))    
-        ) {
-            return true;
-        } else 
-        {
-            return false; 
-        }
-    }
-}

@@ -64,6 +64,9 @@ function loadPage (){
     
     function closeGameSession () {
         gameSession.canvasElement.removeEventListener('mousedown',trackMousePosition, false);  
+        document.querySelector('.type1').removeEventListener( 'click',utils.setTower);
+       // document.querySelector('.type2').removeEventListener( 'click',utils.setTower(2));
+    
         gameSession.destroy();
     }
 
@@ -75,7 +78,7 @@ function loadPage (){
         console.log ('Mouse position: ' + mousePos.x + ',' + mousePos.y);
         // if no tower selected + paid > no action
         // if area not allowed or occupied > change mouse color to style.cursor = 'pointer';
-        if(gameSession.map.checkPositionTower(mousePos.x,mousePos.y)) {
+        if(gameSession.checkPositionTower(mousePos.x,mousePos.y)) {
            gameSession.pushTower(mousePos.x,mousePos.y);
         }
     }
