@@ -1,7 +1,7 @@
 'use strict';
 
 
-function Tower (x,y,r,color,alpha,level,damage,sizeRange,ctx) {
+function Tower (x,y,r,color,alpha,level,damage,sizeRange,colorRange,alphaRange,ctx) {
     this.x=x;
     this.y=y;
     this.r=r;
@@ -10,6 +10,8 @@ function Tower (x,y,r,color,alpha,level,damage,sizeRange,ctx) {
     this.level=level;
     this.damage=damage;
     this.sizeRange=sizeRange;
+    this.colorRange=colorRange;
+    this.alphaRange=alphaRange;
     this.ctx=ctx;
 
 }
@@ -21,9 +23,14 @@ Tower.prototype.getDistance= function (enimyX,enimyY) {
     return distanceCircles;
 }
 
-Tower.prototype.draw = function () {
+Tower.prototype.drawTower = function () {
     utils.drawCircle (this.ctx, this.x, this.y, this.r, this.color, this.alpha);
 }
+
+Tower.prototype.drawRange = function () {
+    utils.drawCircle (this.ctx, this.x, this.y, this.sizeRange, this.colorRange, this.alphaRange);
+}
+
 
 Tower.prototype.drawShot = function (ctx,enimyX,enimyY) {
     ctx.save();

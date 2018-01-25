@@ -40,32 +40,23 @@ function Game(gameParent) { // constructor for gameSession
         self.updateStats();
         
 
-        // self.towers.forEach(function (tower) { 
-        //     tower.draw() 
-        // });
-
-        // draw towers + range
-        for (var i=0;i<self.towerRange.length;i++)
-        {
-            self.drawCircle(self.towerRange[i].x,self.towerRange[i].y,self.towerRange[i].r,self.towerRange[i].color,self.towerRange[i].alpha);
-        }
+        // draw towers and range
         for (var i=0;i<self.placedTowers.length;i++)
         {
-            self.drawCircle(self.placedTowers[i].x,self.placedTowers[i].y,self.placedTowers[i].r,self.placedTowers[i].color,self.placedTowers[i].alpha);
+            self.placedTowers[i].drawRange();
+            self.placedTowers[i].drawTower();
 
         }
 
         // draw enemyArray
         for (var i=0;i<self.enemyArray.length;i++) {
-            self.drawCircle(self.enemyArray[i].x,self.enemyArray[i].y,self.enemyArray[i].r,self.enemyArray[i].color,self.enemyArray[i].alpha);
-            // self.enemyArray[i].draw()
-            // draw -> utils.drawCircle(self.ctx, self.x, self.y, self.r, self.color, self.alpha)
+            self.enemyArray[i].draw();
         }
 
         if (self.player.healthPoints<=0) // termination condition
         {
             console.log("1st ending condition");
-            loadPagcloseGameSession();
+            closeGameSession();
             self.showGameOver();
         }
         if (!self.finished) {
@@ -78,16 +69,7 @@ function Game(gameParent) { // constructor for gameSession
     window.requestAnimationFrame(self.updateFrame);
 }
 
-// Game.prototype.updateFrame = function () { 
-//     // reset frame
-//     this.ctx.clearRect(0,0,this.canvasElement.width,this.canvasElement.height);
-//     // draw background map
-//     map.draw (this.ctx,this.canvasElement.width,this.canvasElement.height);
-  
-//     if (!this.finished) {
-//         window.requestAnimationFrame(this.updateFrame);
-//       }
-//     };
+
 
 Game.prototype.updateGameProcess = function () {
     var self =this;
@@ -143,12 +125,6 @@ Game.prototype.createCanvas = function (){
     var Stats1 = 'Health Points left: '+ this.player.healthPoints;
     var Stats2 = 'Coins: '+ this.player.coins;
 
-    // var gameStatus = document.createElement('div');
-    // gameStatus.setAttribute('class','displayStatus');
-    // var playerStats = document.createElement ('p');
-    // playerStats.innerHTML='<span class="Stats1">'+Stats1+'</span><span class="Stats2">'+Stats2+'</span>';
-    // gameStatus.appendChild(playerStats);
-    // this.gameParent.appendChild(gameStatus);
 
     var buttonDiv =document.createElement('div');
     buttonDiv.setAttribute ('class','game-buttons')
@@ -168,7 +144,7 @@ Game.prototype.createCanvas = function (){
     
     utils.setTower = this.player.setTowerClass.bind(this.player);
     document.querySelector('.type1').addEventListener('click',utils.setTower);
-   // document.querySelector('.type2').addEventListener( 'click',utils.setTower(2));
+    document.querySelector('.type2').addEventListener( 'click',utils.setTower);
 
 
     this.canvasElement = document.createElement('canvas');
@@ -185,18 +161,6 @@ Game.prototype.destroy = function () {
     self.canvasElement.remove();
 };
 
-Game.prototype.drawCircle= function (x,y,r,color,alpha) { // -> hand over context
-    var self= this;
-    // self.ctx.save();
-    self.ctx.globalAlpha = alpha;
-    self.ctx.beginPath();
-    self.ctx.arc(x,y,r,0,(2*Math.PI));
-    self.ctx.fillStyle =color;
-    self.ctx.stroke();
-    self.ctx.fill();
-    self.ctx.globalAlpha = 1;
-    // self.ctx.restore();
-};
 
 
 Game.prototype.createNewWave = function () {
@@ -241,11 +205,9 @@ Game.prototype.pushTower = function (x,y) {
     var rangeRad =towerTemplate[level].sizeRange;
     var damage =towerTemplate[level].damage;
 
-    var towerInstance = new Tower(x,y,towerRad,colorTower,alphaTower,level,damage,rangeRad,this.ctx);
+    var towerInstance = new Tower(x,y,towerRad,colorTower,alphaTower,level,damage,rangeRad,colorRange,alphaRange,this.ctx);
     this.placedTowers.push(towerInstance);
 
-    var rangeInstance = new Tower(x,y,rangeRad,colorRange,alphaRange,level,damage,0,this.ctx);
-    this.towerRange.push(rangeInstance);
 
     this.player.selectedTower=false;
 }
