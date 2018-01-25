@@ -11,7 +11,8 @@ function Game(gameParent) { // constructor for gameSession
     self.gameSequence;
     self.frameCounter=0;
     self.enemyCounter=0;
-    self.date = Date.now()+15000; //15 seconds to position towers
+    self.waveCounter=0;
+    self.date = Date.now()+10000; //15 seconds to position towers
 
     // initiate player
     self.player= new Player ();
@@ -110,7 +111,7 @@ Game.prototype.moveEnemies=function () {
             self.player.coins+=element.level*25;
             self.enemyArray.splice(index,1);
         } else if (element.remove===true) {
-            self.player.healthPoints -= element.level;
+            self.player.healthPoints --;
             self.enemyArray.splice(index,1);
         }
 
@@ -121,6 +122,7 @@ Game.prototype.updateStats = function (){
     this.ctx.font = '20px Arial, sans-serif';
     this.ctx.fillStyle = 'white';
     this.ctx.fillText('Health Points left: '+ this.player.healthPoints,  10, 50);
+    this.ctx.fillText('Enemy Waves left: '+ (waveLevel.waveEnemies.length-this.waveCounter)+"/"+waveLevel.waveEnemies.length,  350, 50);
     this.ctx.fillText('Coins: '+ this.player.coins,  650, 50);
 }
 
@@ -169,15 +171,16 @@ Game.prototype.destroy = function () {
 Game.prototype.createEnemies = function () {
     var that=this;
     var dateNow= Date.now();
-    var dateNextEnemy = that.date + waveLevel1.waveTiming[that.enemyCounter];
-    if (dateNow >= dateNextEnemy) {
+    var dateNextEnemy = that.date + waveLevel.waveTiming[that.waveCounter][that.enemyCounter];
+    var lastEnemy= (that.waveCounter=== waveLevel.waveEnemies.length-1)&&(that.enemyCounter === waveLevel.waveEnemies[that.waveCounter].length-1)
+    if (dateNow >= dateNextEnemy && lastEnemy === false) {
         var nextEnemy;
-        var enemyType=waveLevel1.waveEnemies[that.enemyCounter];
-        var x= waveLevel1[enemyType].x;
-        var y= waveLevel1[enemyType].y;
-        var r= waveLevel1[enemyType].r;
-        var level= waveLevel1[enemyType].level;
-        var color=waveLevel1[enemyType].color;
+        var enemyType=waveLevel.waveEnemies[that.waveCounter][that.enemyCounter];
+        var x= waveLevel[enemyType].x;
+        var y= waveLevel[enemyType].y;
+        var r= waveLevel[enemyType].r;
+        var level= waveLevel[enemyType].level;
+        var color=waveLevel[enemyType].color;
         var hp =150 * level;
 
         nextEnemy = new Enemy(x,y,r,level,color,hp,that.map.waypoint,that.ctx);
@@ -187,6 +190,14 @@ Game.prototype.createEnemies = function () {
         that.enemyCounter++;
         that.date=Date.now();
     }
+    if (that.enemyCounter=== waveLevel.waveEnemies[that.waveCounter].length){
+        if (that.waveCounter < waveLevel.waveEnemies.length-1) {
+            that.waveCounter++;
+            that.enemyCounter = 0;
+            that.date=Date.now()+20000;
+        }
+    }
+
 }
 
 // Game.prototype.createNewWave = function () {

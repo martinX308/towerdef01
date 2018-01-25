@@ -65,7 +65,7 @@ function loadPage (){
     function closeGameSession () {
         gameSession.canvasElement.removeEventListener('mousedown',trackMousePosition, false);  
         document.querySelector('.type1').removeEventListener( 'click',utils.setTower);
-       // document.querySelector('.type2').removeEventListener( 'click',utils.setTower(2));
+        document.querySelector('.type2').removeEventListener( 'click',utils.setTower);
     
         gameSession.destroy();
     }

@@ -99,23 +99,53 @@ Enemy.prototype.draw = function () {
 
 
 
-var waveLevel1 ={
+var waveLevel ={
     enemy1: {
         x:20,
         y:150,
-        r:10,
-        level:1,
-        color:'blue'
+        r:7,
+        level:2,
+        color:'azure',
+        speed:3
     },
     enemy2:{
         x:20,
         y:150,
-        r:10,
-        level:2,
-        color:'brown'
+        r:7,
+        level:1,
+        color:'white',
+        speed:2
     },
-    waveEnemies: ['enemy1','enemy1','enemy1','enemy2','enemy1','enemy2','enemy1','enemy2','enemy2'],
-    waveTiming:[5000,3000,5000,3000,5000,3000,2000,3000,3000]
+    enemy3: {
+        x:20,
+        y:150,
+        r:7,
+        level:4,
+        color:'blue',
+        speed:2.5
+
+    },
+    enemy4:{
+        x:20,
+        y:150,
+        r:7,
+        level:6,
+        color:'brown',
+        speed:2
+    },
+    waveEnemies:[
+        ['enemy1','enemy1','enemy1','enemy2','enemy1','enemy2','enemy1','enemy2','enemy2'],
+        ['enemy1','enemy1','enemy2','enemy2','enemy2','enemy2','enemy3','enemy2','enemy3','enemy2','enemy3','enemy3','enemy4'],
+        ['enemy2','enemy3','enemy1','enemy1','enemy2','enemy2','enemy3','enemy2','enemy3','enemy2','enemy3','enemy3','enemy4'],
+        ['enemy1','enemy1','enemy1','enemy1','enemy3','enemy3','enemy4','enemy3','enemy4','enemy3','enemy4','enemy4','enemy4']
+
+    ],
+    waveTiming:[
+        [5000,3000,3000,2000,4000,2000,1500,2000,2000],
+        [500,500,500,500,5000,3000,5000,3000,5000,3000,2000,3000,3000],
+        [200,400,300,200,5000,3000,5000,3000,5000,3000,2000,3000,3000],
+        [100,300,200,100,5000,3000,5000,3000,5000,3000,2000,3000,3000]
+    ]
 
 }
 
