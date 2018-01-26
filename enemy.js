@@ -11,7 +11,7 @@ function Enemy(x,y,r,level,color,hp,waypoints,ctx) {
     this.alpha=1;
     this.level=level;
     this.hp=hp;
-    this.speed=1; // velocity of enemy
+    this.speed=0.7; // velocity of enemy
     this.velocity ={
         x:1,
         y:1

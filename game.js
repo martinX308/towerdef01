@@ -12,7 +12,7 @@ function Game(gameParent) { // constructor for gameSession
     self.frameCounter = 0;
     self.enemyCounter = 0;
     self.waveCounter = 0;
-    self.date = Date.now()+10000; //15 seconds to position towers
+    self.date = Date.now()+1000; //15 seconds to position towers
 
     // initiate player
     self.player = new Player ();
@@ -120,7 +120,7 @@ Game.prototype.removeEnemies = function () {
     //remove enemies (dead or reached end of map)
     self.enemyArray.forEach(function (element, index) {
         if(element.hp <= 0) {
-            self.player.coins += element.level * 25;
+            self.player.coins += 25;
             self.enemyArray.splice (index, 1);
         } 
         else if (element.remove === true) {
@@ -149,13 +149,13 @@ Game.prototype.createCanvas = function () {
     buttonDiv.setAttribute ('class', 'game-buttons');
 
     var purchaseTower1 = document.createElement('button'); // create container
-    purchaseTower1.innerHTML = "<p>Buy Tower1</p><p>Range:Low - Type:Area damage<br>Damage:Low - Attack frequency:Low</p>";
+    purchaseTower1.innerHTML = "<p>Buy Tower1</p><p>Range:Low - Type:Area damage<br>Damage:Low - Price: 50 Coins</p>";
     purchaseTower1.setAttribute('class','tower-button type1');
     //purchaseTower1.setAttribute('onclick','gameSession.player.setTowerClass(1)');
     buttonDiv.appendChild(purchaseTower1);
 
     var purchaseTower2 = document.createElement('button'); // create container
-    purchaseTower2.innerHTML = "<p>Buy Tower2</p><p>Range:High - Type:Single attack<br>Damage:Medium - Attack frequency:high</p>";
+    purchaseTower2.innerHTML = "<p>Buy Tower2</p><p>Range:High - Type:Single attack<br>Damage:Medium - Price: 200 Coins</p>";
     purchaseTower2.setAttribute('class', 'tower-button type2');
     //purchaseTower2.setAttribute('onclick','gameSession.player.setTowerClass(2)');
     buttonDiv.appendChild(purchaseTower2);
@@ -209,7 +209,7 @@ Game.prototype.createEnemies = function () {
         if (that.waveCounter < waveLevel.waveEnemies.length-1) {
             that.waveCounter++;
             that.enemyCounter = 0;
-            that.date = Date.now()+20000;
+            that.date = Date.now()+5000;
         }
     }
 
