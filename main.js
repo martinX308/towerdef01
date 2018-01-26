@@ -60,6 +60,11 @@ function loadPage (){
         var canvas =gameSession.canvasElement;
         canvas.addEventListener('mousedown',trackMousePosition, false);    //   mouse listener for click on tower class
         
+        gameSession.onGameOver(function (){
+            closeGameSession();
+            showGameOver();
+        });
+        
     }
     
     function closeGameSession () {

@@ -65,7 +65,7 @@ var towerTemplate ={
         colorRange:'orange',
         alphaRange:0.3,
         sizeRange:60,
-        damage:80
+        damage:100
     }
 }
 

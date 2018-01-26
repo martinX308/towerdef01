@@ -58,12 +58,8 @@ function Game(gameParent) { // constructor for gameSession
             self.enemyArray[i].draw();
         }
 
-        if (self.player.healthPoints<=0) // termination condition
-        {
-            console.log("1st ending condition");
-            closeGameSession();
-            self.showGameOver();
-        }
+        self.checkGameEnd ();
+
         if (!self.finished) {
             window.requestAnimationFrame(self.updateFrame);
         }
@@ -74,7 +70,20 @@ function Game(gameParent) { // constructor for gameSession
     window.requestAnimationFrame(self.updateFrame);
 }
 
+Game.prototype.onGameOver = function (callbackFunction) {
+    var self = this;
+    self.onEnded = callbackFunction;
+}
 
+Game.prototype.checkGameEnd = function () {
+    var that = this;
+    var allWavesPassed= (that.waveCounter=== waveLevel.waveEnemies.length-1)&&(that.enemyCounter === waveLevel.waveEnemies[that.waveCounter].length-1)&&that.enemyArray.length===0;
+    if (that.player.healthPoints<=0 || allWavesPassed===true) // termination condition
+    {
+        console.log("Game ended");
+        that.onEnded();
+    }
+}
 
 Game.prototype.updateGameProcess = function () {
     var self =this;
@@ -164,6 +173,7 @@ Game.prototype.createCanvas = function (){
 Game.prototype.destroy = function () {
     var self = this;
     self.finished = true;
+    document.querySelector('.game-buttons').remove();
     self.canvasElement.remove();
 };
 
@@ -181,7 +191,7 @@ Game.prototype.createEnemies = function () {
         var r= waveLevel[enemyType].r;
         var level= waveLevel[enemyType].level;
         var color=waveLevel[enemyType].color;
-        var hp =150 * level;
+        var hp =100 * level;
 
         nextEnemy = new Enemy(x,y,r,level,color,hp,that.map.waypoint,that.ctx);
         nextEnemy.getNextWaypoint();

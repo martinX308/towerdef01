@@ -11,7 +11,7 @@ function Enemy(x,y,r,level,color,hp,waypoints,ctx) {
     this.alpha=1;
     this.level=level;
     this.hp=hp;
-    this.speed=1; // velocity of enemy
+    this.speed=2; // velocity of enemy
     this.velocity ={
         x:1,
         y:1
@@ -129,7 +129,7 @@ var waveLevel ={
         x:20,
         y:150,
         r:7,
-        level:6,
+        level:5,
         color:'brown',
         speed:2
     },
