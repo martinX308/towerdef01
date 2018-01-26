@@ -60,7 +60,7 @@ function loadPage (){
         var canvas =gameSession.canvasElement;
         canvas.addEventListener('mousedown',trackMousePosition, false);    //   mouse listener for click on tower class
         
-        gameSession.onGameOver(function (){
+        gameSession.onGameOver(function () {
             closeGameSession();
             showGameOver();
         });
@@ -68,10 +68,9 @@ function loadPage (){
     }
     
     function closeGameSession () {
-        gameSession.canvasElement.removeEventListener('mousedown',trackMousePosition, false);  
-        document.querySelector('.type1').removeEventListener( 'click',utils.setTower);
-        document.querySelector('.type2').removeEventListener( 'click',utils.setTower);
-    
+        gameSession.canvasElement.removeEventListener('mousedown', trackMousePosition, false);  
+        document.querySelector('.type1').removeEventListener('click', utils.setTower);
+        document.querySelector('.type2').removeEventListener('click', utils.setTower);
         gameSession.destroy();
     }
 
@@ -80,10 +79,10 @@ function loadPage (){
     function trackMousePosition (event) {
         var mousePos = getMousePos(gameSession.canvasElement, event);
         //  if allowed style.cursor = 'move';
-        console.log ('Mouse position: ' + mousePos.x + ',' + mousePos.y);
+        console.log('Mouse position: ' + mousePos.x + ',' + mousePos.y);
         // if no tower selected + paid > no action
         // if area not allowed or occupied > change mouse color to style.cursor = 'pointer';
-        if(gameSession.checkPositionTower(mousePos.x,mousePos.y)) {
+        if (gameSession.checkPositionTower(mousePos.x,mousePos.y)) {
            gameSession.pushTower(mousePos.x,mousePos.y);
         }
     }
@@ -101,56 +100,52 @@ function loadPage (){
 
     // ------- build Game Over page
     var restartGame = function () {
-        removeGameOverPage ();
+        removeGameOverPage();
         runGame();
     }
 
     function showGameOver () {
         var playAgainButton=
 
-        gamePreview=document.createElement('div'); // create container
-        gamePreview.setAttribute('id','game-preview');
+        gamePreview = document.createElement('div'); // create container
+        gamePreview.setAttribute('id', 'game-preview');
 
-        var header=document.createElement('h2'); 
-        header.innerText='GAME OVER!'
+        var header = document.createElement('h2'); 
+        header.innerText = 'GAME OVER!';
         gamePreview.appendChild(header);
 
 
-        var imgContainer=document.createElement('div'); 
-        imgContainer.setAttribute('id','game-img');
+        var imgContainer = document.createElement('div'); 
+        imgContainer.setAttribute('id', 'game-img');
 
-        var image =document.createElement('img'); // append Image
-        image.setAttribute('src','https://pre00.deviantart.net/0dc4/th/pre/i/2015/182/0/0/defeated_by_m_hugo-d8zjha8.jpg');
+        var image = document.createElement('img'); // append Image
+        image.setAttribute('src', 'https://pre00.deviantart.net/0dc4/th/pre/i/2015/182/0/0/defeated_by_m_hugo-d8zjha8.jpg');
         imgContainer.appendChild(image);
         gamePreview.appendChild(imgContainer);
 
-        buttonStartGame =document.createElement('button'); //append start button
-        buttonStartGame.setAttribute('class','start-game');
-        buttonStartGame.innerText='Retry?';
+        buttonStartGame = document.createElement('button'); //append start button
+        buttonStartGame.setAttribute('class', 'start-game');
+        buttonStartGame.innerText = 'Retry?';
         gamePreview.appendChild(buttonStartGame);
 
         document.querySelector('#gui').appendChild(gamePreview); // load html to page
         // start listener for start button
-        buttonStartGame.addEventListener('click',restartGame);
+        buttonStartGame.addEventListener('click', restartGame);
 
     }
 
     function removeGameOverPage () {
         // remove eventListener on Start Button
-        buttonStartGame.removeEventListener('click',restartGame);
+        buttonStartGame.removeEventListener('click', restartGame);
 
         // remove HTML elements for pre-launch
         document.querySelector('#game-preview').remove();
 
     }
 
-    buildWelcomePage ()     
-
-
+    buildWelcomePage ();
 
 }
-
-
 
 
 window.onload = loadPage;

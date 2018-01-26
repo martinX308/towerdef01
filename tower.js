@@ -2,24 +2,24 @@
 
 
 function Tower (x,y,r,color,alpha,level,damage,sizeRange,colorRange,alphaRange,ctx) {
-    this.x=x;
-    this.y=y;
-    this.r=r;
-    this.color=color;
-    this.alpha=alpha;
-    this.level=level;
-    this.damage=damage;
-    this.sizeRange=sizeRange;
-    this.colorRange=colorRange;
-    this.alphaRange=alphaRange;
-    this.ctx=ctx;
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.color = color;
+    this.alpha = alpha;
+    this.level = level;
+    this.damage = damage;
+    this.sizeRange = sizeRange;
+    this.colorRange = colorRange;
+    this.alphaRange = alphaRange;
+    this.ctx = ctx;
 
 }
 
-Tower.prototype.getDistance= function (enimyX,enimyY) {
-    var xDistance=enimyX-this.x;
-    var yDistance=enimyY-this.y;
-    var distanceCircles=Math.sqrt(Math.pow(xDistance,2)+Math.pow(yDistance,2));
+Tower.prototype.getDistance = function (enimyX, enimyY) {
+    var xDistance = enimyX - this.x;
+    var yDistance = enimyY - this.y;
+    var distanceCircles = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
     return distanceCircles;
 }
 
@@ -32,40 +32,40 @@ Tower.prototype.drawRange = function () {
 }
 
 
-Tower.prototype.drawShot = function (ctx,enimyX,enimyY) {
+Tower.prototype.drawShot = function (enemyX, enemyY) {
+    var ctx = this.ctx;
+
     ctx.save();
     ctx.beginPath();
-    ctx.strokeStyle='white';
-    ctx.lineWidth =1;
-    ctx.moveTo (
-        this.x,this.y
-    );
-    ctx.lineTo(enemyX,enemyY);
-    ctx.stroke ();
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 4;
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(enemyX, enemyY);
+    ctx.stroke();
     ctx.restore();     
 }
 
 
 
 
-var towerTemplate ={
+var towerTemplate = {
     1: {//Type 1
         colorTower:'black',
-        alphaTower:1,
-        sizeTower:10,
-        colorRange:'orange',
-        alphaRange:0.3,
-        sizeRange:90,
-        damage:30
+        alphaTower: 1,
+        sizeTower: 10,
+        colorRange: 'orange',
+        alphaRange: 0.3,
+        sizeRange: 60,
+        damage: 40
     },
     2: {//Type 2
-        colorTower:'brown',
-        alphaTower:1,
-        sizeTower:20,
-        colorRange:'orange',
-        alphaRange:0.3,
-        sizeRange:60,
-        damage:100
+        colorTower: 'brown',
+        alphaTower: 1,
+        sizeTower: 20,
+        colorRange: 'orange',
+        alphaRange: 0.3,
+        sizeRange: 75,
+        damage: 90
     }
 }
 

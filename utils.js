@@ -6,8 +6,8 @@ var utils = {
         // ctx.save();
         ctx.globalAlpha = alpha;
         ctx.beginPath();
-        ctx.arc(x,y,r,0,(2*Math.PI));
-        ctx.fillStyle =color;
+        ctx.arc(x, y, r, 0, (2*Math.PI));
+        ctx.fillStyle = color;
         ctx.stroke();
         ctx.fill();
         ctx.globalAlpha = 1;
