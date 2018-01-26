@@ -12,6 +12,7 @@ var Player = function () {
 }
 
 Player.prototype.setTowerClass = function (event) {
+    var self = this;
     var type;
     if(event.currentTarget.classList.contains('type1')) {
         type = 1;
@@ -20,10 +21,11 @@ Player.prototype.setTowerClass = function (event) {
         type = 2;
     }
 
-    if (this.coins >= this.pricePerTower[type])
-    { 
+    if (this.coins >= this.pricePerTower[type]) { 
         this.selectedTower = type;
         this.coins -= this.pricePerTower[type];
+        //document.querySelector('.type1').removeEventListener('click', self.player.setTowerClass.bind(self.player));
+        //document.querySelector('.type2').removeEventListener('click', self.player.setTowerClass.bind(self.player));
     } 
     else {
         //cannot buy tower

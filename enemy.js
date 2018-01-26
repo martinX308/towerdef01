@@ -11,7 +11,7 @@ function Enemy(x,y,r,level,color,hp,waypoints,ctx) {
     this.alpha=1;
     this.level=level;
     this.hp=hp;
-    this.speed=0.7; // velocity of enemy
+    this.speed=1; // velocity of enemy
     this.velocity ={
         x:1,
         y:1
@@ -54,7 +54,7 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
     if(!self.nextWaypoint) // initialize nexWaypoint
     {
        self.nextWaypoint= Object.assign ({},self.waypoints[self.nextWaypointIndex]);
-      
+       // -20 + Math.floor(Math.random() * 40);
     }
     var oldWaypointX =self.nextWaypoint.x;
     var oldWaypointY = self.nextWaypoint.y;
@@ -65,7 +65,7 @@ Enemy.prototype.getNextWaypoint = function () //check next Waypoint and adjust m
     { 
         return false;
     } else {
-        self.nextWaypoint= Object.assign ({},self.waypoints[self.nextWaypointIndex]);
+        self.nextWaypoint = Object.assign ({},self.waypoints[self.nextWaypointIndex]);
     }
 
     if (oldWaypointX === self.nextWaypoint.x) // adjust movement on x axis
@@ -104,24 +104,24 @@ var waveLevel ={
         x:20,
         y:150,
         r:7,
-        level:2,
-        color:'azure',
+        level:1,
+        color:'blue',
         speed:1
     },
     enemy2:{
         x:20,
         y:150,
         r:7,
-        level:1,
-        color:'white',
+        level:3,
+        color:'yellow',
         speed:2
     },
     enemy3: {
         x:20,
         y:150,
         r:7,
-        level:4,
-        color:'blue',
+        level:5,
+        color:'white',
         speed:1.5
 
     },
@@ -129,8 +129,8 @@ var waveLevel ={
         x:20,
         y:150,
         r:7,
-        level:5,
-        color:'brown',
+        level:7,
+        color:'orange',
         speed:0.5
     },
     waveEnemies:[
